@@ -1,12 +1,32 @@
 $(document).ready(function(evt){
 
+    var _prefix0 = function (value) {
+        if (value < 10) {
+            return "0" + value;
+        }
+        return value;
+    };
+
     /**
      * 将Long类型日期转换成YYYYMMHHmmDD格式
      * @param timestamp
      */
-    function toDate(timestamp) {
+    function getTime(time) {
+            var d = null;
+            if (time instanceof  Date) {
+                d = new Date();
+            } else {
+                d = new Date(time)
+            }
+            var year = _prefix0(d.getFullYear())
+            var month = _prefix0(d.getMonth() + 1)
+            var day = _prefix0( d.getDate())
+            var hour = _prefix0(d.getHours())
+            var min = _prefix0(d.getMinutes())
+            var sec = _prefix0(d.getSeconds())
 
-    }
+            return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec
+        }
 
     //首先获取要展现的数据，每行数据要展现到Table中的一列
     //因此首先确定Table的列数
@@ -37,7 +57,7 @@ $(document).ready(function(evt){
             htr.append("<td width='10%'>Performance</td>")
             //TODO 计算每一列的宽度
             for(var i = 0; i < entries.length; i++) {
-                htr.append("<td>" + entries[i].timestamp +"," + entries[i].iteration + "</td>")
+                htr.append("<td>" + getTime(entries[i].timestamp) +"(" + entries[i].iteration + ")" + "</td>")
             }
 
             //首先计算一共多少行
