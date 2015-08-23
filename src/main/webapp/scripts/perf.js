@@ -3,6 +3,7 @@ $(document).ready(function(evt){
     //首先获取要展现的数据，每行数据要展现到Table中的一列
     //因此首先确定Table的列数
     var url = "/perf/results"
+
     $.get(url)
         .success(function(responseText){
             //将responseText转换为Json串数组，每个元素是一个运行结果对应的JSON字符串
