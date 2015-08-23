@@ -1,5 +1,13 @@
 $(document).ready(function(evt){
 
+    /**
+     * 将Long类型日期转换成YYYYMMHHmmDD格式
+     * @param timestamp
+     */
+    function toDate(timestamp) {
+
+    }
+
     //首先获取要展现的数据，每行数据要展现到Table中的一列
     //因此首先确定Table的列数
     var url = "/perf/results"
@@ -19,8 +27,23 @@ $(document).ready(function(evt){
                 return;
             }
 
-            //确定列数
-            var rowNumber = entries[0].resul
+            //确定列数：entries.length表示要展现运行统计信息的列数
+
+            //构造header
+            var tbody = $("#resultTable tbody")
+            var htr = $("<tr></tr>")
+            tbody.append(htr)
+            htr.append("<td width=‘10%’>Query Name</td>")
+            htr.append("<td width='10%'>Performance</td>")
+            //TODO 计算每一列的宽度
+            for(var i = 0; i < entries.length; i++) {
+                htr.append("<td>" + entries[i].timestamp +"," + entries[i].iteration + "</td>")
+            }
+
+            //首先计算一共多少行
+            //
+
+
 
 
 
