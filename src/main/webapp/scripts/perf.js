@@ -52,6 +52,7 @@ $(document).ready(function (evt) {
             }
 
             //创建行，行数由运行的查询决定
+            //
             var  rowNum = entries[0].results.length
 
             for (var i = 0; i < rowNum; i++) {
