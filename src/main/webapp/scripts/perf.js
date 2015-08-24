@@ -1,5 +1,14 @@
 $(document).ready(function (evt) {
 
+    var breakDownNum = function(breakDown) {
+        var url = document.documentURI
+        if (url.contains("excludeBreakdown")) {
+            return 0
+        } else {
+           return  breakDown == null ? 0 : breakDown.length
+        }
+    }
+
     var _prefix0 = function (value) {
         if (value < 10) {
             return "0" + value;
@@ -65,7 +74,7 @@ $(document).ready(function (evt) {
             for (var i = 0; i < rowNum; i++) {
                 var row = $("<tr></tr>")
                 tbody.append(row)
-                var breakDownRows = entries[0].results[i].breakDown == null ? 0 : entries[0].results[i].breakDown.length
+                var breakDownRows = breakDownNum(entries[0].results[i].breakDown)
                 var rowsPerQuery = 5 + breakDownRows
                 row.append("<td rowspan='" + rowsPerQuery + "'>" + entries[0].results[i].name + "</td>")
                 row.append("<td>ParsingTime</td>")
@@ -103,7 +112,7 @@ $(document).ready(function (evt) {
 
                 //获得每个查询包含的Break的数目
                 //
-                var breakDownRow = entries[0].results[i].breakDown.length;
+                var breakDownRow = breakDownNum(entries[0].results[i].breakDown)
                 for (var k = 0; k < breakDownRow; k++) {
                     row = $("<tr></tr>")
                     var breakDown = entries[0].results[i].breakDown[k]
