@@ -59,76 +59,64 @@ $(document).ready(function (evt) {
             }
 
             //创建行，最外层的行数由运行的查询决定
-            var  rowNum = entries[0].results.length
+            var rowNum = entries[0].results.length
 
+            //对每个查询进行计算
             for (var i = 0; i < rowNum; i++) {
                 var row = $("<tr></tr>")
                 tbody.append(row)
-                var breakDownRows =  entries[0].results[i]. breakDown == null ? 0 : entries[0].results[i]. breakDown.length
+                var breakDownRows = entries[0].results[i].breakDown == null ? 0 : entries[0].results[i].breakDown.length
                 var rowsPerQuery = 5 + breakDownRows
-                row.append("<td rowspan='" + rowsPerQuery + "'>" + entries[0].results[i].name  + "</td>")
+                row.append("<td rowspan='" + rowsPerQuery + "'>" + entries[0].results[i].name + "</td>")
                 row.append("<td>ParsingTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[i].results[j].parsingTime +  "</td>");
+                    row.append("<td>" + entries[j].results[i].parsingTime + "</td>");
                 }
 
                 row = $("<tr></tr>")
                 tbody.append(row)
                 row.append("<td>analysisTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[i].results[j].analysisTime +  "</td>");
+                    row.append("<td>" + entries[j].results[i].analysisTime + "</td>");
                 }
 
                 row = $("<tr></tr>")
                 tbody.append(row)
                 row.append("<td>optimizationTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[j].results[0].optimizationTime +  "</td>");
+                    row.append("<td>" + entries[j].results[i].optimizationTime + "</td>");
                 }
 
                 row = $("<tr></tr>")
                 tbody.append(row)
                 row.append("<td>planningTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[j].results[0].planningTime +  "</td>");
+                    row.append("<td>" + entries[j].results[i].planningTime + "</td>");
                 }
 
                 row = $("<tr></tr>")
                 tbody.append(row)
                 row.append("<td>executionTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[j].results[0].executionTime +  "</td>");
+                    row.append("<td>" + entries[j].results[i].executionTime + "</td>");
                 }
 
-                for(var k = 0; k < entries[i].results[0].breakDown.length; k++) {
-                    var breakDown = entries[i].results[0].breakDown[k]
-                    row = $("<tr></tr>")
-                    tbody.append(row)
-                    row.append("<td>"+ breakDown.nodeName +"("  +breakDown.index + ")" +  "</td>")
-                    for (var j = 0; j < entries.length; j++) {
-                        row.append("<td>" +  entries[i].results[0].breakDown.executionTime +  "</td>");
+                //有问题的代码：
+
+                for (var j = 0; j < entries.length; j++) {
+                    for (var k = 0; k < entries[j].results[i].breakDown.length; k++) {
+                        var breakDown = entries[j].results[i].breakDown[k]
+                        row = $("<tr></tr>")
+                        tbody.append(row)
+                        row.append("<td>" + breakDown.nodeName + "(" + breakDown.index + ")" + "</td>")
+                        row.append("<td>" + breakDown.executionTime + "</td>");
                     }
                 }
-
-
-
-
-
-
-
-
-
-
-
             }
-
-
         })
         .error(function (error) {
             alert("Unable to access " + url + ", The error is : " + error)
         })
-
-
 })
 
 
