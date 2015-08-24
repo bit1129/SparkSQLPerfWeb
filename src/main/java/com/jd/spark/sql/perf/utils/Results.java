@@ -9,7 +9,8 @@ import java.util.List;
 
 
 public class Results {
-    private static List<String> readFromFile(File file) throws IOException {
+    //只读取一个迭代的时间统计信息
+    private static List<String> readFromFile(File file, boolean onlyFirstIteration) throws IOException {
         BufferedReader br = null;
         List<String> lines = new ArrayList<String>();
         try {
@@ -17,6 +18,9 @@ public class Results {
             String line;
             while ((line = br.readLine()) != null) {
                 lines.add(line);
+                if (onlyFirstIteration) {
+                    break;
+                }
             }
             return lines;
         } finally {
@@ -35,7 +39,7 @@ public class Results {
         Arrays.sort(files);
         List<String> results = new ArrayList<String>();
         for (int i = 0; i < files.length; i++) {
-            List<String> lines = readFromFile(new File(resultFileDir.getAbsolutePath(), files[i]));
+            List<String> lines = readFromFile(new File(resultFileDir.getAbsolutePath(), files[i]), true);
             results.addAll(lines);
         }
         return new Gson().toJson(results);
