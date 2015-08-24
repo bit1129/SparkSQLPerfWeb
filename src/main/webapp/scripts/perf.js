@@ -1,4 +1,4 @@
-$(document).ready(function(evt){
+$(document).ready(function (evt) {
 
     var _prefix0 = function (value) {
         if (value < 10) {
@@ -8,33 +8,29 @@ $(document).ready(function(evt){
     };
 
     /**
-     * 将Long类型日期转换成YYYYMMHHmmDD格式
      * @param timestamp
      */
     function getTime(time) {
-            var d = null;
-            if (time instanceof  Date) {
-                d = new Date();
-            } else {
-                d = new Date(time)
-            }
-            var year = _prefix0(d.getFullYear())
-            var month = _prefix0(d.getMonth() + 1)
-            var day = _prefix0( d.getDate())
-            var hour = _prefix0(d.getHours())
-            var min = _prefix0(d.getMinutes())
-            var sec = _prefix0(d.getSeconds())
-
-            return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec
+        var d = null;
+        if (time instanceof  Date) {
+            d = new Date();
+        } else {
+            d = new Date(time)
         }
+        var year = _prefix0(d.getFullYear())
+        var month = _prefix0(d.getMonth() + 1)
+        var day = _prefix0(d.getDate())
+        var hour = _prefix0(d.getHours())
+        var min = _prefix0(d.getMinutes())
+        var sec = _prefix0(d.getSeconds())
 
-    //首先获取要展现的数据，每行数据要展现到Table中的一列
-    //因此首先确定Table的列数
+        return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec
+    }
+
     var url = "/perf/results"
 
     $.get(url)
-        .success(function(responseText){
-            //将responseText转换为Json串数组，每个元素是一个运行结果对应的JSON字符串
+        .success(function (responseText) {
             var strResultArr = JSON.parse(responseText);
             var entries = [];
             for (var i = 0; i < strResultArr.length; i++) {
@@ -43,38 +39,46 @@ $(document).ready(function(evt){
             }
 
             if (entries.length <= 0) {
-                //TODO : 显示无数据信息，返回
                 return;
             }
 
-            //确定列数：entries.length表示要展现运行统计信息的列数
-
-            //构造header
             var tbody = $("#resultTable tbody")
             var htr = $("<tr></tr>")
             tbody.append(htr)
-            htr.append("<td width=‘10%’>Query Name</td>")
+            htr.append("<td width='10%'>Query Name</td>")
             htr.append("<td width='10%'>Performance</td>")
-            //TODO 计算每一列的宽度
-            for(var i = 0; i < entries.length; i++) {
-                htr.append("<td>" + getTime(entries[i].timestamp) +"(" + entries[i].iteration + ")" + "</td>")
+            for (var i = 0; i < entries.length; i++) {
+                htr.append("<td>" + getTime(entries[i].timestamp) + "(" + entries[i].iteration + ")" + "</td>")
             }
 
-            //首先计算一共多少行
-            //
+            //鍒涘缓琛岋紝琛屾暟鐢辫繍琛岀殑鏌ヨ鍐冲畾
+            var  rowNum = entries[0].results.length
+
+            for (var i = 0; i < rowNum; i++) {
+                var row = $("<tr></tr>")
+                tbody.append(row)
+                var rowsPerRow = 5 + entries[0].results[i]. breakDown.length
+                row.append("<td rowspan='" + rowsPerRow + "'>" + entries[0].results[i].name  + "</td>")
+                row.append("<td>ParsingTime</td>")
+                for (var j = 0; j < entries.length; j++) {
+                    row.append("<td>" +  entries[j].results[0].parsingTime +  "</td>");
+                }
+
+                row = $("<tr></tr>")
+                tbody.append(row)
+                row.append("<td>analysisTime</td>")
+                for (var j = 0; j < entries.length; j++) {
+                    row.append("<td>" +  entries[j].result[0].analysisTime +  "</td>");
+                }
 
 
+            }
 
-
-
-
-            //从obj的JSON串中取出有多少个计算结果
 
         })
-        .error(function(error){
-        alert("Unable to access " + url +", The error is : " + error)
-    })
-
+        .error(function (error) {
+            alert("Unable to access " + url + ", The error is : " + error)
+        })
 
 
 })
