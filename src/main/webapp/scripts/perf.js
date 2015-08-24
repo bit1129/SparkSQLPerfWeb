@@ -55,6 +55,81 @@ $(document).ready(function (evt) {
                 return;
             }
 
+            var basicConfs = [
+                "sparkVersion",
+                "scaleFactor"
+            ]
+
+            var sqlConfs = [
+                "spark.sql.shuffle.partitions",
+                "spark.sql.sources.partitionDiscovery.enabled"
+            ]
+
+            var sparkConfs = [
+                "spark.default.parallelism",
+                "spark.driver.memory",
+                "spark.executor.memory",
+                "spark.executor.instances",
+                "spark.shuffle.consolidateFiles",
+                "spark.storage.memoryFraction"
+              ]
+
+            var confTable = $("#configurationTable tbody")
+            var thr = $("<tr></tr>")
+            confTable.append(thr)
+            var td = $("<td>Property Name</td>")
+            thr.append(td)
+            for (var j = 0; j < entries.length; j++) {
+                var td = $("<td></td>")
+                thr.append("<td>" + getTime(entries[j].timestamp) + "(" + entries[j].iteration + ")" + "</td>")
+            }
+
+
+            for (var i = 0; i < basicConfs.length; i++ ) {
+                var conf = basicConfs[i];
+                var row = $("<tr></tr>")
+                confTable.append(row)
+                var td = $("<td></td>")
+                td.text(conf)
+                row.append(td)
+                for (var j = 0; j < entries.length; j++) {
+                    var td = $("<td></td>")
+                    row.append(td)
+                    td.text(entries[j].configuration[conf])
+                }
+            }
+
+            for (var i = 0; i < sqlConfs.length; i++ ) {
+                var conf = sqlConfs[i];
+                var row = $("<tr></tr>")
+                confTable.append(row)
+                var td = $("<td></td>")
+
+                td.text(conf)
+                row.append(td)
+                for (var j = 0; j < entries.length; j++) {
+                    var td = $("<td></td>")
+                    row.append(td)
+                    td.text(entries[j].configuration.sqlConf[conf])
+                }
+            }
+
+            for (var i = 0; i < sparkConfs.length; i++ ) {
+                var conf = sparkConfs[i];
+                var row = $("<tr></tr>")
+                confTable.append(row)
+               var td = $("<td></td>")
+                td.text(conf)
+                row.append(td)
+                for (var j = 0; j < entries.length; j++) {
+                    var td = $("<td></td>")
+                    row.append(td)
+                    td.text(entries[j].configuration.sparkConf[conf])
+                }
+            }
+
+
+
             var tbody = $("#resultTable tbody")
             //创建表头
             var htr = $("<tr></tr>")
