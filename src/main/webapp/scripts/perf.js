@@ -58,8 +58,9 @@ $(document).ready(function (evt) {
             for (var i = 0; i < rowNum; i++) {
                 var row = $("<tr></tr>")
                 tbody.append(row)
-                var rowsPerRow = 5 + entries[0].results[i]. breakDown.length
-                row.append("<td rowspan='" + rowsPerRow + "'>" + entries[0].results[i].name  + "</td>")
+                var breakDownRows =  entries[0].results[i]. breakDown == null ? 0 : entries[0].results[i]. breakDown.length
+                var rowsPerQuery = 5 + breakDownRows
+                row.append("<td rowspan='" + rowsPerQuery + "'>" + entries[0].results[i].name  + "</td>")
                 row.append("<td>ParsingTime</td>")
                 for (var j = 0; j < entries.length; j++) {
                     row.append("<td>" +  entries[j].results[0].parsingTime +  "</td>");
@@ -69,8 +70,48 @@ $(document).ready(function (evt) {
                 tbody.append(row)
                 row.append("<td>analysisTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[j].result[0].analysisTime +  "</td>");
+                    row.append("<td>" +  entries[j].results[0].analysisTime +  "</td>");
                 }
+
+                row = $("<tr></tr>")
+                tbody.append(row)
+                row.append("<td>optimizationTime</td>")
+                for (var j = 0; j < entries.length; j++) {
+                    row.append("<td>" +  entries[j].results[0].optimizationTime +  "</td>");
+                }
+
+                row = $("<tr></tr>")
+                tbody.append(row)
+                row.append("<td>planningTime</td>")
+                for (var j = 0; j < entries.length; j++) {
+                    row.append("<td>" +  entries[j].results[0].planningTime +  "</td>");
+                }
+
+                row = $("<tr></tr>")
+                tbody.append(row)
+                row.append("<td>executionTime</td>")
+                for (var j = 0; j < entries.length; j++) {
+                    row.append("<td>" +  entries[j].results[0].executionTime +  "</td>");
+                }
+
+                for(var k = 0; k < entries[i].results[0].breakDown.length; k++) {
+                    var breakDown = entries[i].results[0].breakDown[k]
+                    row = $("<tr></tr>")
+                    tbody.append(row)
+                    row.append("<td>"+ breakDown.nodeName +"("  +breakDown.index + ")" +  "</td>")
+                    for (var j = 0; j < entries.length; j++) {
+                        row.append("<td>" +  entries[i].results[0].breakDown.executionTime +  "</td>");
+                    }
+                }
+
+
+
+
+
+
+
+
+
 
 
             }
