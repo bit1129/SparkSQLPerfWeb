@@ -103,7 +103,7 @@ $(document).ready(function (evt) {
                     row.append("<td>" + entries[j].results[i].planningTime + "</td>");
                 }
 
-                row = $("<tr></tr>")
+                row = $("<tr style='background-color: coral'></tr>")
                 tbody.append(row)
                 row.append("<td>executionTime</td>")
                 for (var j = 0; j < entries.length; j++) {

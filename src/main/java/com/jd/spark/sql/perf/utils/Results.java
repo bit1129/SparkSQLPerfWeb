@@ -4,28 +4,41 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-//TODO 目前的实现是从指定的目录读取，更合理的做法是直接从HDFS上获取
+
 public class Results {
-    public static String get() throws IOException {
-        //读取文件内容
-
+    private static List<String> readFromFile(File file) throws IOException {
         BufferedReader br = null;
-        List<String> results = new ArrayList<String>();
+        List<String> lines = new ArrayList<String>();
         try {
-            br = new BufferedReader(new FileReader(new File("D:\\tmpdownloads\\Results\\2\\part-00000")));
-            String line = null;
+            br = new BufferedReader(new FileReader(file));
+            String line;
             while ((line = br.readLine()) != null) {
-                results.add(line);
+                lines.add(line);
             }
-            return new Gson().toJson(results);
-
+            return lines;
         } finally {
             if (br != null) {
                 br.close();
             }
         }
+    }
+
+    public static String get() throws IOException {
+        File resultFileDir = new File("D:/tmpdownloads/Results/RenderOnUI");
+        if (!resultFileDir.exists() || !resultFileDir.isDirectory()) {
+            throw new IOException(resultFileDir.getAbsolutePath() + " should exist and also be a directory");
+        }
+        String[] files = resultFileDir.list();
+        Arrays.sort(files);
+        List<String> results = new ArrayList<String>();
+        for (int i = 0; i < files.length; i++) {
+            List<String> lines = readFromFile(new File(resultFileDir.getAbsolutePath(), files[i]));
+            results.addAll(lines);
+        }
+        return new Gson().toJson(results);
 
     }
 }
