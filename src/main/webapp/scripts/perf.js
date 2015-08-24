@@ -101,15 +101,16 @@ $(document).ready(function (evt) {
                     row.append("<td>" + entries[j].results[i].executionTime + "</td>");
                 }
 
-                //有问题的代码：
-
-                for (var j = 0; j < entries.length; j++) {
-                    for (var k = 0; k < entries[j].results[i].breakDown.length; k++) {
+                //获得每个查询包含的Break的数目
+                var breakDownRow = entries[0].results[i].breakDown.length;
+                for (var k = 0; k < breakDownRow; k++) {
+                    row = $("<tr></tr>")
+                    var breakDown = entries[0].results[i].breakDown[k]
+                    row.append("<td>" + breakDown.nodeName + "(" + breakDown.index + ")" + "</td>")
+                    tbody.append(row)
+                    for (var j = 0; j < entries.length; j++) {
                         var breakDown = entries[j].results[i].breakDown[k]
-                        row = $("<tr></tr>")
-                        tbody.append(row)
-                        row.append("<td>" + breakDown.nodeName + "(" + breakDown.index + ")" + "</td>")
-                        row.append("<td>" + breakDown.executionTime + "</td>");
+                            row.append("<td>" + breakDown.executionTime + "</td>");
                     }
                 }
             }
