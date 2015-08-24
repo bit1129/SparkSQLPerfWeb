@@ -102,6 +102,7 @@ $(document).ready(function (evt) {
                 }
 
                 //获得每个查询包含的Break的数目
+                //
                 var breakDownRow = entries[0].results[i].breakDown.length;
                 for (var k = 0; k < breakDownRow; k++) {
                     row = $("<tr></tr>")
