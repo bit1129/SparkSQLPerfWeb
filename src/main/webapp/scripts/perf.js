@@ -32,6 +32,10 @@ $(document).ready(function (evt) {
     $.get(url)
         .success(function (responseText) {
             var strResultArr = JSON.parse(responseText);
+
+            //entries数组的每个元素记录了一次运行的时间统计信息。
+            //一次运行由运行改benchmark的timestamp和该次运行的第几次迭代确定
+            //entries数组的个数决定了表格的列数(表格的列由<QueryName>、<Performance>加每次迭代(一列))
             var entries = [];
             for (var i = 0; i < strResultArr.length; i++) {
                 var entry = JSON.parse(strResultArr[i])
@@ -43,16 +47,18 @@ $(document).ready(function (evt) {
             }
 
             var tbody = $("#resultTable tbody")
+            //创建表头
             var htr = $("<tr></tr>")
             tbody.append(htr)
             htr.append("<td width='10%'>Query Name</td>")
             htr.append("<td width='10%'>Performance</td>")
+
+            //一次运行的一个迭代占据一列
             for (var i = 0; i < entries.length; i++) {
                 htr.append("<td>" + getTime(entries[i].timestamp) + "(" + entries[i].iteration + ")" + "</td>")
             }
 
-            //创建行，行数由运行的查询决定
-            //
+            //创建行，最外层的行数由运行的查询决定
             var  rowNum = entries[0].results.length
 
             for (var i = 0; i < rowNum; i++) {
@@ -63,14 +69,14 @@ $(document).ready(function (evt) {
                 row.append("<td rowspan='" + rowsPerQuery + "'>" + entries[0].results[i].name  + "</td>")
                 row.append("<td>ParsingTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[j].results[0].parsingTime +  "</td>");
+                    row.append("<td>" +  entries[i].results[j].parsingTime +  "</td>");
                 }
 
                 row = $("<tr></tr>")
                 tbody.append(row)
                 row.append("<td>analysisTime</td>")
                 for (var j = 0; j < entries.length; j++) {
-                    row.append("<td>" +  entries[j].results[0].analysisTime +  "</td>");
+                    row.append("<td>" +  entries[i].results[j].analysisTime +  "</td>");
                 }
 
                 row = $("<tr></tr>")
