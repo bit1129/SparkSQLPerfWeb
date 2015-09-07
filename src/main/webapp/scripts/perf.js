@@ -71,7 +71,8 @@ $(document).ready(function (evt) {
                 "spark.executor.memory",
                 "spark.executor.instances",
                 "spark.shuffle.consolidateFiles",
-                "spark.storage.memoryFraction"
+                "spark.storage.memoryFraction",
+                "spark.executor.cores"
               ]
 
             var confTable = $("#configurationTable tbody")

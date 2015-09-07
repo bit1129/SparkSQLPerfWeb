@@ -35,7 +35,12 @@ public class Results {
         if (!resultFileDir.exists() || !resultFileDir.isDirectory()) {
             throw new IOException(resultFileDir.getAbsolutePath() + " should exist and also be a directory");
         }
-        String[] files = resultFileDir.list();
+        String[] files = resultFileDir.list(new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                File foundFile = new File(dir, name);
+                return foundFile.exists() && foundFile.isFile() && foundFile.getName().startsWith("part-");
+            }
+        });
         Arrays.sort(files);
         List<String> results = new ArrayList<String>();
         for (int i = 0; i < files.length; i++) {
