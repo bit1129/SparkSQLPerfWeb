@@ -72,7 +72,10 @@ $(document).ready(function (evt) {
                 "spark.executor.instances",
                 "spark.shuffle.consolidateFiles",
                 "spark.storage.memoryFraction",
-                "spark.executor.cores"
+                "spark.executor.cores",
+                "spark.local.dir",
+                "spark.shuffle.sort.bypassMergeThreshold",
+                "spark.sql.tungsten.enabled"
               ]
 
             var confTable = $("#configurationTable tbody")
